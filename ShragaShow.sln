@@ -1,0 +1,25 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio Version 17
+VisualStudioVersion = 17.2.32630.192
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ShragaShow", "ShragaShow.csproj", "{557CD45D-78DF-447E-A9AF-2C6048A1ED44}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{557CD45D-78DF-447E-A9AF-2C6048A1ED44}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{557CD45D-78DF-447E-A9AF-2C6048A1ED44}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{557CD45D-78DF-447E-A9AF-2C6048A1ED44}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{557CD45D-78DF-447E-A9AF-2C6048A1ED44}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {764C4628-A340-47C3-907D-8F6E91C2C2CE}
+	EndGlobalSection
+EndGlobal
