@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.IO;
+using System.Linq;
 using System.Runtime.Serialization.Formatters.Binary;
 
 namespace ShragaShow {
@@ -14,6 +15,7 @@ namespace ShragaShow {
 		private static ITwoWayEnumerator<Image> imageEnumerator;
 		private static readonly string fileName = "images.dat";
 		internal static List<Image> imageList = new();
+		private static string[] filters = ".BMP,.EMF,.EXIF,.GIF,.ICON,.JPEG,.PNG,.TIFF,.WMF,.JPG".Split(',');
 		internal static void LoadImageList() {
 			var random = new Random();
 			ReadFromDisk();
@@ -33,7 +35,7 @@ namespace ShragaShow {
 		internal static void ReadFolder(string path) {
 			var files = GetFiles(path);
 			foreach (var file in files) {
-				if (!imageList.Exists(i => i.path == file)) {
+				if (!imageList.Exists(i => i.path == file) && filters.Contains(Path.GetExtension(file))) {
 					imageList.Add(new Image() {
 						path = file,
 						showCount = 0,
@@ -57,13 +59,12 @@ namespace ShragaShow {
 				stream.Close();
 			}
 		}
-		private static List<string> GetFiles(string searchFolder) {
-			var filesFound = new List<string>();
-			var filters = "BMP,EMF,EXIF,GIF,ICON,JPEG,PNG,TIFF,WMF".Split(',');// new string[] { "*.jpg", "*.jpeg", "*.jpe", "*.jif", "*.jfif", "*.jfi", "*.webp", "*.gif", "*.png", "*.apng", "*.bmp", "*.dib", "*.tiff", "*.tif", "*.svg", "*.svgz", "*.ico", "*.xbm" };
-			foreach (var filter in filters) {
-				filesFound.AddRange(Directory.GetFiles(searchFolder, $"*.{filter}", SearchOption.AllDirectories));
-			}
-			return filesFound;
+		private static IEnumerable<string> GetFiles(string searchFolder) {
+			return Directory.EnumerateFiles(searchFolder, "*", SearchOption.AllDirectories);
+		}
+		internal static void RemoveAllSlides() {
+			imageList.Clear();
+			imageEnumerator = TwoWayEnumeratorHelper.GetTwoWayEnumerator(imageList);
 		}
 		internal static string GetNextImage(bool forward = true) {
 			Image im = null;

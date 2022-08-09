@@ -10,8 +10,8 @@ namespace ShragaShow {
 		static void Main(string[] args) {
 			Application.EnableVisualStyles();
 			Application.SetCompatibleTextRenderingDefault(false);
-			var path = args.Length > 0 ? args[0] : $"{Environment.GetEnvironmentVariable("USERPROFILE")}/Pictures";
-			Application.Run(new Form1(path));
+			//var path = args.Length > 0 ? args[0] : $"{Environment.GetEnvironmentVariable("USERPROFILE")}/Pictures";
+			Application.Run(new Form1(args));
 			Data.SaveToDisk();
 		}
 	}

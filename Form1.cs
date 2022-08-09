@@ -4,12 +4,16 @@ using System.IO;
 using System.Windows.Forms;
 
 namespace ShragaShow {
-	public partial class Form1 : Form, IDisposable {
+	public partial class Form1 : Form {
 		string currentPath = "";
-		string helpText = "";
-		public Form1(string path) {
+		public Form1(string[] args) {
 			InitializeComponent();
 			Data.LoadImageList();
+			if (args != null) {
+				foreach (var path in args) {
+					Data.ReadFolder(path);
+				}
+			}
 			timerSlide.Start();
 			timerSlide_Tick(this, null);
 		}
@@ -20,6 +24,9 @@ namespace ShragaShow {
 			currentPath = Data.GetNextImage(forward);
 			if (currentPath != null) {
 				try {
+					if (pictureBox1.Image != null) {
+						pictureBox1.Image.Dispose();
+					}
 					pictureBox1.Image = new Bitmap(currentPath);
 				} catch {
 					Data.RemoveImage(currentPath);
@@ -28,7 +35,6 @@ namespace ShragaShow {
 			}
 		}
 		private void ShowTT(string msg) {
-			helpText = msg;
 			toolTip1.Show(msg, pictureBox1);
 		}
 		private void Form1_KeyDown(object sender, KeyEventArgs e) {
@@ -44,7 +50,7 @@ namespace ShragaShow {
 					break;
 				case Keys.OemQuestion:
 					//ShowTT("Space: Pause\nUP: Increse display time\nDn: Decrese display time\nLeft: Prvious\nRight: Next\nDelete: Remove Image");
-					ShowTT("רווח: השהייה\nחץ למעלה: הגדלת זמן התצוגה\nחץ מטה: הקטנת זמן התצוגה\nחץ שמאלה: תמונה קודמת\nחץ ימינה: תמונה הבאה\nDel: הסר תמונה");
+					ShowTT("רווח: השהייה\nחץ למעלה: הגדלת זמן התצוגה\nחץ מטה: הקטנת זמן התצוגה\nחץ שמאלה: תמונה קודמת\nחץ ימינה: תמונה הבאה\nDel: הסר תמונה\nCtrl+Del: הסרת כל התמונות");
 					break;
 				case Keys.Space:
 					if (timerSlide.Enabled)
@@ -60,8 +66,14 @@ namespace ShragaShow {
 					ShowImage(true);
 					break;
 				case Keys.Delete:
-					ShowTT("תמונה הוסרה מהתצוגה");
-					Data.RemoveImage(currentPath);
+					if (e.Control) {
+						pictureBox1.Image = null;
+						Data.RemoveAllSlides();
+						ShowTT("כל התמונות הוסרו");
+					} else {
+						ShowTT("תמונה הוסרה מהתצוגה");
+						Data.RemoveImage(currentPath);
+					}
 					break;
 				case Keys.Escape:
 					pictureBox1_DoubleClick(sender, EventArgs.Empty);
