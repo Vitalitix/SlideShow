@@ -45,7 +45,7 @@
 			// 
 			// timerSlide
 			// 
-			this.timerSlide.Interval = 5000;
+			this.timerSlide.Interval = 3000;
 			this.timerSlide.Tick += new System.EventHandler(this.timerSlide_Tick);
 			// 
 			// toolTip1
